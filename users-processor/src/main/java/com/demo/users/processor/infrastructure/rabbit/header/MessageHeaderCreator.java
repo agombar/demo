@@ -1,0 +1,23 @@
+package com.demo.users.processor.infrastructure.rabbit.header;
+
+import com.demo.users.processor.infrastructure.util.LocalDateTimeFormatter;
+import lombok.RequiredArgsConstructor;
+
+import java.time.Clock;
+import java.time.LocalDateTime;
+
+@RequiredArgsConstructor
+public class MessageHeaderCreator {
+
+	private final LocalDateTimeFormatter localDateTimeFormatter;
+	private final Clock clock;
+
+	public MessageHeader create(String objectName) {
+		return new MessageHeader(
+			objectName,
+			1,
+			this.localDateTimeFormatter.toISO(LocalDateTime.now(this.clock))
+		);
+	}
+
+}

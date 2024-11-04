@@ -1,0 +1,29 @@
+server:
+  port: 8084
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: users_payments
+    password: users_payments
+    virtual-host: /
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database: POSTGRESQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/users_payments
+    username: users_payments
+    password: users_payments
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+

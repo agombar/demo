@@ -1,0 +1,44 @@
+server:
+  port: 8082
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: users_payments
+    password: users_payments
+    virtual-host: /
+
+messaging:
+  userExternalCreated:
+    exchange: user.external.managing.tx
+    routingKey: created
+    queue: user.external.created.queue
+  userCreated:
+    exchange: user.managing.tx
+    routingKey: created
+  userExternalUpdated:
+    exchange: user.external.managing.tx
+    routingKey: updated
+    queue: user.external.updated.queue
+  userUpdated:
+    exchange: user.managing.tx
+    routingKey: updated
+
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health
+  metrics:
+    tags:
+      application: UsersPaymentsSinkApplication

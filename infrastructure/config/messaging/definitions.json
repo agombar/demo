@@ -1,0 +1,57 @@
+{
+  "rabbit_version": "3.11.4",
+  "rabbitmq_version": "3.11.4",
+  "vhosts": [
+    {
+      "limits": [],
+      "metadata": {
+        "description": "undefined",
+        "tags": []
+      },
+      "name": "/"
+    }
+  ],
+  "users": [
+    {
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "limits": {},
+      "name": "users_payments",
+      "password_hash": "vMnkAcxQs5CRYye6QT/XkX21BaqZzYOFF/jA7lMJZ0vZtjDc",
+      "tags": "administrator"
+    }
+  ],
+  "permissions": [
+    {
+      "configure": ".*",
+      "read": ".*",
+      "user": "users_payments",
+      "vhost": "/",
+      "write": ".*"
+    }
+  ],
+  "topic_permissions": [
+    {
+      "exchange": "",
+      "read": ".*",
+      "user": "users_payments",
+      "vhost": "/",
+      "write": ".*"
+    }
+  ],
+  "policies": [
+    {
+      "vhost": "/",
+      "name": "expire-no-consumer",
+      "pattern": "\\.queue",
+      "apply-to": "queues",
+      "definition": {
+        "expires": 10000
+      },
+      "priority": 0
+    }
+  ],
+  "queues": [],
+  "bindings": [],
+  "exchanges": [],
+  "parameters": []
+}

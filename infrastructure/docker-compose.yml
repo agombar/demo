@@ -1,0 +1,47 @@
+version: "3.5"
+
+services:
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: "rabbitmq:3.11-management-alpine"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKORSQALRQCLNMEQA"
+    volumes:
+      - "./config/messaging/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+      - "./config/messaging/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+      - "./config/messaging/definitions.json:/etc/rabbitmq/definitions.json"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - demo
+
+  db-services:
+    container_name: db-services
+    image: "postgres:12"
+    # Uncommenting the following line you can enable the query logs in postgresql
+    # command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    environment:
+      # Each database configuration is separated from others by commas (,)
+      # and it has three parameters separated by pipes (|) --> database name, user database name and extensions to install in schema public
+      # The third parameter is optional and each extension to install is separated from others by semicolons (;)
+      # Example: database_name|user_db_name|extension1_to_install;extension2_to_install,database2_name|user_db2_name|extension1_to_install,database3_name|user_db3_name
+      POSTGRES_MULTIPLE_DATABASES: users_payments|users_payments|uuid-ossp
+      POSTGRES_USER: services
+      POSTGRES_PASSWORD: services
+    volumes:
+      - ./config/pg-scripts:/docker-entrypoint-initdb.d
+      - ./data/services/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - demo
+
+volumes:
+  db-data:
+
+networks:
+  demo:
+    name: demo
+    driver: bridge
